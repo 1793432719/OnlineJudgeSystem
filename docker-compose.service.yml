@@ -1,0 +1,14 @@
+version: '3'
+services:
+  niuoj-code-sandbox:
+    container_name: niuoj-code-sandbox
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8123:8123"
+    networks:
+      - mynetwork
+# 网络，不定义的话就是默认网络
+networks:
+  mynetwork:
