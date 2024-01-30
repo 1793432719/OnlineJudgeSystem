@@ -1,0 +1,54 @@
+version: '3'
+services:
+  niuoj-backend-gateway:
+    container_name: niuoj-backend-gateway
+    build:
+      context: ./niuoj-backend-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8101:8101"
+    networks:
+      - mynetwork
+
+  niuoj-backend-user-service:
+    container_name: niuoj-backend-user-service
+    build:
+      context: ./niuoj-backend-user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8102:8102"
+    networks:
+      - mynetwork
+    depends_on:
+      - niuoj-backend-gateway
+
+  niuoj-backend-question-service:
+    container_name: niuoj-backend-question-service
+    build:
+      context: ./niuoj-backend-question-service
+      dockerfile: Dockerfile
+    ports:
+      - "8103:8103"
+    networks:
+      - mynetwork
+    depends_on:
+      - niuoj-backend-user-service
+      - niuoj-backend-gateway
+
+  niuoj-backend-judge-service:
+    container_name: niuoj-backend-judge-service
+    build:
+      context: ./niuoj-backend-judge-service
+      dockerfile: Dockerfile
+    ports:
+      - "8104:8104"
+    networks:
+      - mynetwork
+    depends_on:
+      - niuoj-backend-user-service
+      - niuoj-backend-question-service
+      - niuoj-backend-gateway
+
+# 网络，不定义的话就是默认网络
+networks:
+  mynetwork:
